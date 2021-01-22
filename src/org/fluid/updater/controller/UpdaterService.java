@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pixelexperience.ota.controller;
+package org.fluid.updater.controller;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -31,14 +31,14 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import org.pixelexperience.ota.R;
-import org.pixelexperience.ota.UpdaterReceiver;
-import org.pixelexperience.ota.UpdatesActivity;
-import org.pixelexperience.ota.UpdatesCheckReceiver;
-import org.pixelexperience.ota.misc.Utils;
-import org.pixelexperience.ota.model.Update;
-import org.pixelexperience.ota.model.UpdateInfo;
-import org.pixelexperience.ota.model.UpdateStatus;
+import org.fluid.updater.R;
+import org.fluid.updater.UpdaterReceiver;
+import org.fluid.updater.UpdatesActivity;
+import org.fluid.updater.UpdatesCheckReceiver;
+import org.fluid.updater.misc.Utils;
+import org.fluid.updater.model.Update;
+import org.fluid.updater.model.UpdateInfo;
+import org.fluid.updater.model.UpdateStatus;
 
 import java.io.IOException;
 import java.text.NumberFormat;

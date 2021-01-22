@@ -1,4 +1,4 @@
-package org.pixelexperience.ota;
+package org.fluid.updater;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,9 +14,9 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import org.pixelexperience.ota.misc.Utils;
-import org.pixelexperience.ota.model.MaintainerInfo;
-import org.pixelexperience.ota.model.UpdateInfo;
+import org.fluid.updater.misc.Utils;
+import org.fluid.updater.model.MaintainerInfo;
+import org.fluid.updater.model.UpdateInfo;
 
 import java.util.ArrayList;
 

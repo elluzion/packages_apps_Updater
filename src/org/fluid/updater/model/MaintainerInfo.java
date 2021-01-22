@@ -1,4 +1,4 @@
-package org.pixelexperience.ota.model;
+package org.fluid.updater.model;
 
 public class MaintainerInfo {
     private String name;

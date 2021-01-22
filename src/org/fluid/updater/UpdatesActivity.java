@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pixelexperience.ota;
+package org.fluid.updater;
 
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -48,21 +48,21 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
-import org.pixelexperience.ota.controller.ABUpdateInstaller;
-import org.pixelexperience.ota.controller.UpdaterController;
-import org.pixelexperience.ota.controller.UpdaterService;
-import org.pixelexperience.ota.download.DownloadClient;
-import org.pixelexperience.ota.misc.Constants;
-import org.pixelexperience.ota.misc.PermissionsUtils;
-import org.pixelexperience.ota.misc.Utils;
-import org.pixelexperience.ota.model.UpdateInfo;
-import org.pixelexperience.ota.model.UpdateStatus;
+import org.fluid.updater.controller.ABUpdateInstaller;
+import org.fluid.updater.controller.UpdaterController;
+import org.fluid.updater.controller.UpdaterService;
+import org.fluid.updater.download.DownloadClient;
+import org.fluid.updater.misc.Constants;
+import org.fluid.updater.misc.PermissionsUtils;
+import org.fluid.updater.misc.Utils;
+import org.fluid.updater.model.UpdateInfo;
+import org.fluid.updater.model.UpdateStatus;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
-import static org.pixelexperience.ota.model.UpdateStatus.UNKNOWN;
+import static org.fluid.updater.model.UpdateStatus.UNKNOWN;
 
 public class UpdatesActivity extends UpdatesListActivity {
 
