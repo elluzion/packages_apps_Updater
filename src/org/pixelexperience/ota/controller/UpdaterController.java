@@ -245,11 +245,11 @@ public class UpdaterController {
 
     private boolean verifyPackage(File file, String hash) {
         try {
-            if (Utils.calculateMD5(file).equals(hash)) {
+            if (Utils.calculateSHA1(file).equals(hash)) {
                 Log.d(TAG, "Verification successful");
                 return true;
             } else {
-                throw new Exception("MD5 mismatch");
+                throw new Exception("SHA1 mismatch");
             }
         } catch (Exception e) {
             Log.e(TAG, "Verification failed", e);

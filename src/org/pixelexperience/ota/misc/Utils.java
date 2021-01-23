@@ -95,12 +95,12 @@ public class Utils {
         Update update = new Update();
         update.setTimestamp(object.getLong("datetime"));
         update.setName(object.getString("filename"));
-        update.setDownloadId(object.getString("id"));
+        update.setDownloadId(object.getString("sha1sum"));
         update.setFileSize(object.getLong("size"));
         update.setDownloadUrl(object.getString("url"));
-        update.setVersion(object.getString("version"));
-        update.setHash(object.getString("filehash"));
-        update.setMaintainers(maintainers);
+        update.setVersion(object.getString("release"));
+        update.setHash(object.getString("sha1sum"));
+        //update.setMaintainers(maintainers);
         update.setDonateUrl(object.isNull("donate_url") ? "" : object.getString("donate_url"));
         update.setForumUrl(object.isNull("forum_url") ? "" : object.getString("forum_url"));
         update.setWebsiteUrl(object.isNull("website_url") ? "" : object.getString("website_url"));
@@ -109,8 +109,8 @@ public class Utils {
     }
 
     public static boolean isCompatible(UpdateBaseInfo update) {
-        if (update.getVersion().compareTo(SystemProperties.get(Constants.PROP_BUILD_VERSION)) < 0) {
-            Log.d(TAG, update.getName() + " with version " + update.getVersion() + " is older than current Android version " + SystemProperties.get(Constants.PROP_BUILD_VERSION));
+        if (update.getVersion().compareTo(SystemProperties.get(Constants.PROP_BUILD_VERSION_RELEASE)) < 0) {
+            Log.d(TAG, update.getName() + " with version " + update.getVersion() + " is older than current Android version " + SystemProperties.get(Constants.PROP_BUILD_VERSION_RELEASE));
             return false;
         }
         if (update.getTimestamp() <= SystemProperties.getLong(Constants.PROP_BUILD_DATE, 0)) {
@@ -121,9 +121,7 @@ public class Utils {
     }
 
     public static boolean canInstall(UpdateBaseInfo update) {
-        return (update.getTimestamp() > SystemProperties.getLong(Constants.PROP_BUILD_DATE, 0)) &&
-                update.getVersion().equalsIgnoreCase(
-                        SystemProperties.get(Constants.PROP_BUILD_VERSION));
+        return (update.getTimestamp() > SystemProperties.getLong(Constants.PROP_BUILD_DATE, 0));
     }
 
     public static UpdateInfo parseJson(File file, boolean compatibleOnly, Context context)
@@ -157,14 +155,40 @@ public class Utils {
 
     public static String getServerURL() {
         String buildType = getBuildType();
+        String parsedBuildVersion;
+
+        if (isGapped()) {
+            parsedBuildVersion = getBuildVersionReleaseAsText() + "_gapped";
+        } else {
+            parsedBuildVersion = getBuildVersionReleaseAsText() + "_gappless";
+        }
+
         if (buildType.equals("OFFICIAL")){
-            return String.format(Constants.OTA_URL, SystemProperties.get(Constants.PROP_DEVICE), SystemProperties.get(Constants.PROP_BUILD_VERSION));
-        }else if (buildType.equals("CI")){
-            return String.format(Constants.OTA_CI_URL, SystemProperties.get(Constants.PROP_DEVICE), SystemProperties.get(Constants.PROP_BUILD_VERSION));
+            return String.format(Constants.OTA_URL, SystemProperties.get(Constants.PROP_DEVICE), parsedBuildVersion);
         }
         return null;
     }
 
+    // hardcoded kek
+    public static String getBuildVersionReleaseAsText() {
+        String buildVersionRelease = SystemProperties.get(Constants.PROP_BUILD_VERSION_RELEASE);
+        switch (buildVersionRelease) {
+            case "10":
+                return "ten";
+            case "11": 
+                return "eleven";
+        }
+        return null;
+    }
+
+    public static boolean isGapped() {
+        String buildVersion = SystemProperties.get(Constants.PROP_BUILD_VERSION);
+        if (buildVersion.endsWith("gapped")){
+            return true;
+        }
+        return false;
+    }
+    
     public static String getMaintainerURL(String username) {
         return String.format(Constants.MAINTAINER_URL, username);
     }
@@ -306,10 +330,10 @@ public class Utils {
         return AlarmManager.INTERVAL_DAY;
     }
 
-    public static String calculateMD5(File updateFile) {
+    public static String calculateSHA1(File updateFile) {
         MessageDigest digest;
         try {
-            digest = MessageDigest.getInstance("MD5");
+            digest = MessageDigest.getInstance("SHA-1");
         } catch (NoSuchAlgorithmException e) {
             Log.e(TAG, "Exception while getting digest", e);
             return null;
